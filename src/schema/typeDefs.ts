@@ -4,6 +4,7 @@ const typeDefs = gql`
   #graphql
   type Query {
     hello: String
+    say(name: String): String
   }
 `;
 
