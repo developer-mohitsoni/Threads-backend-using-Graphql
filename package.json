@@ -7,7 +7,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node dist/index.js",
     "dev": "tsc-watch --onSuccess \"npm start\""
-    
   },
   "keywords": [
     "Threads",
@@ -21,6 +20,8 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
-    "express": "^4.21.1"
+    "@apollo/server": "^4.11.0",
+    "express": "^4.21.1",
+    "graphql": "^16.9.0"
   }
 }
