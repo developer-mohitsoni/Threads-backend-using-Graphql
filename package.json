@@ -1,0 +1,21 @@
+{
+  "name": "threads-clone-backend-piyushgarg",
+  "version": "1.0.0",
+  "description": "this-is-threads-app-backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Threads",
+    "Graphql"
+  ],
+  "author": "Mohit Soni",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
