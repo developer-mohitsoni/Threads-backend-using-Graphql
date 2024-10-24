@@ -1,14 +1,13 @@
-import express, { Application, Request, Response } from "express";
+import { app, startApolloServer } from "./app";
 
-const app: Application = express();
 const PORT = Number(process.env.PORT) || 8000;
 
-app.get("/", (req: Request, res: Response) => {
-  res.json({
-    message: "Hello, World!",
-  });
-});
+const startServer = async () => {
+  await startApolloServer();
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+  app.listen(PORT, () => {
+    console.log(`Server is running at http://localhost:${PORT}/graphql`);
+  });
+};
+
+startServer();
