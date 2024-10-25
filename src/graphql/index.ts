@@ -6,10 +6,12 @@ export const createApolloGraphqlServer = async () => {
   const gqlServer = new ApolloServer({
     typeDefs: gql`
       #graphql
+      ${User.typeDefs}
 
       type Query {
         ${User.queries}
       }
+      
       type Mutation {
         ${User.mutations}
       }
