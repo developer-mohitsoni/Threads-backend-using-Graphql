@@ -13,7 +13,7 @@ class UserService {
   public static createUser(payload: CreateUserPayload) {
     const { firstName, lastName, email, password } = payload;
 
-    const salt = randomBytes(32).toString();
+    const salt = randomBytes(32).toString("hex");
 
     const hashedPassword = createHmac("sha256", salt)
       .update(password)
@@ -24,7 +24,7 @@ class UserService {
         lastName,
         email,
         salt,
-        password:hashedPassword,
+        password: hashedPassword,
       },
     });
   }
