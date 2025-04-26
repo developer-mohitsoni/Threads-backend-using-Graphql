@@ -1,57 +1,53 @@
-import { expressMiddleware } from "@apollo/server/express4";
 import express, {
 	type Application,
 	type Request,
-	type Response,
+	type Response
 } from "express";
-import { createApolloGraphqlServer } from "./graphql";
-
-import bodyParser from "body-parser";
-import cors from "cors";
-
 import "dotenv/config";
-import UserService from "./services/user";
+import { startStandaloneServer } from "@apollo/server/standalone";
+import cors from "cors";
+import JWT from "jsonwebtoken";
+import apolloServer from "./config/apolloServer.js";
 
-const init = async () => {
-	const app: Application = express();
+const app: Application = express();
 
-	app.use(bodyParser.json());
-	app.use(express.json());
-	app.use(cors());
+const PORT = process.env.PORT || 3000;
 
-	const PORT = Number(process.env.PORT) || 8000;
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 
-	app.get("/", (req: Request, res: Response) => {
-		res.json({
-			message: "Hello Graphql",
-		});
+app.get("/", (req: Request, res: Response) => {
+	res.json({
+		status: 200,
+		message: "App is working"
 	});
+});
 
-	const gqlServer = await createApolloGraphqlServer();
+const { url } = await startStandaloneServer(apolloServer, {
+	listen: {
+		port: 4000
+	},
+	context: async ({ req }) => {
+		const token = req.headers.authorization;
 
-	app.use(
-		"/graphql",
-		expressMiddleware(gqlServer, {
-			context: async ({ req }) => {
-				// @ts-ignore
-				const token = req.headers.authorization;
+		// console.log(token);
 
-				// console.log(token);
+		try {
+			const user = JWT.verify(
+				token as string,
+				process.env.JWT_SECRET as string
+			);
 
-				try {
-					const user = UserService.decodeJWTToken(token as string);
+			return { user };
+		} catch (error) {
+			return {};
+		}
+	}
+});
 
-					return { user };
-				} catch (error) {
-					return {};
-				}
-			},
-		}),
-	);
+console.log(`Apollo Server started at ${url}`);
 
-	app.listen(PORT, () => {
-		console.log(`Server is running at http://localhost:${PORT}/graphql`);
-	});
-};
-
-init();
+app.listen(PORT, () => {
+	console.log(`Server is running on port ${PORT}`);
+});
