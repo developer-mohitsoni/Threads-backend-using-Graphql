@@ -67,7 +67,7 @@ const userResolver = {
 		}
 	},
 	Mutation: {
-		createUser: async (_: any, payload: CreateUserPayload) => {
+		createUser: async (_: any, payload: CreateUserPayload): Promise<string> => {
 			const { firstName, lastName, email, password } = payload;
 
 			const salt = randomBytes(32).toString();
@@ -85,7 +85,7 @@ const userResolver = {
 				}
 			});
 
-			return user;
+			return "User Created Successfully";
 		}
 	}
 };
