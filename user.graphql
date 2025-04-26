@@ -1,0 +1,16 @@
+type User {
+  id: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+  profileImageURL: String
+}
+
+type Query {
+  getUserToken(email: String!, password: String!): String
+  getCurrentLoggedInUser: User
+}
+
+type Mutation {
+  createUser(firstName: String!, lastName: String!, email: String!, password: String!): String
+}
